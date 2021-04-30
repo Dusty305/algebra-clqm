@@ -29,7 +29,20 @@ class Polynom():
         return " ".join(map(str, self._coef[i - 1::-1]))
 
     def is_zero(self):
-        return self._coef_n == 1 and self._coef[0].is_zero()
+        return self.power() == 0 and self._coef[0].is_zero()
+
+    def __gt__(self, num):
+        '''Перегрузка > для класса Polynom. Выполнил Шабров Иван'''
+        if self.power() > num.power():
+            return True
+        elif self.power() < num.power():
+            return False
+        else:
+            for i in range(self.power(), -1, -1):
+                if self._coef[i] > num._coef[i]:
+                    return True
+                else:
+                    return False
 
     '''МОДУЛИ POLYNOM'''
 
@@ -226,16 +239,33 @@ class Polynom():
         a = Polynom(self._coef[::-1])
         b = Polynom(num._coef[::-1])
 
-        while a.power() != 0 and b.power() != 0:
-            if a.power() > b.power():
-                a = a % b
-            else:
-                b = b % a
+        if b > a:
+            a, b = b, a
 
-        res = b if a.power() == 0 else a
-        if res.power() == 0 and not res._coef[0].is_int():
-            res = Polynom([1])
-        return res
+        while b.power() != 0:
+            temp = b
+            a, b = b, a % b
+            if b.is_zero():
+                b = temp
+                break
+
+        if b.power() == 0 and not b._coef[0].is_int():
+            return Polynom([1])
+        return b
+
+        # while not a.is_zero() and not b.is_zero():
+        #     if a > b:
+        #         a = a % b
+        #     else:
+        #         b = b % a
+        #     print(a.power(), b.power())
+        #     print(a)
+        #     print(b)
+        #
+        # res = b if a.is_zero() else a
+        # if res.power() == 0 and not res._coef[0].is_int():
+        #     res = Polynom([1])
+        # return res
 
     def derivate(self):
         '''Модуль P-12 DER_P_P. Выполнил и оформил Щусь Максим'''

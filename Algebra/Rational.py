@@ -6,6 +6,8 @@ __all__ = ["Rational"]
 
 class Rational():
 
+    # _numerator - числитель рационального числа
+    # _denumerator - знаменатель рационального числа
     def __init__(self, n: str = None):
         if not n:
             self._numerator = Integer("0")
@@ -25,6 +27,13 @@ class Rational():
                 if self._numerator == Integer("0"):
                     self._numerator = Integer("0")
                     self._denumerator = Natural("0")
+
+    def __gt__(self, num):
+        res = self - num
+        if res._numerator._sign == POSITIVE:
+            return True
+        else:
+            return False
 
     def is_zero(self):
         return self._numerator.is_zero()
