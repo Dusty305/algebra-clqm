@@ -53,7 +53,6 @@ class MainWindow(QMainWindow):
 
         self.setActions()
 
-
         self.retranslateUi()
         self.stackedWidget.setCurrentIndex(self.currentIndex)
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -478,9 +477,6 @@ class MainWindow(QMainWindow):
     def open_about(self):
         webbrowser.open(
             "https://docs.google.com/document/d/1UQml9XQd2H7PG7L-zd97Js5zGSWCsT7vJ1h2A91Pz2k/edit?usp=sharing")
-
-    def makeAction(self, act, op, noop, types = []):
-        act(lambda: self.handleOperation(op, noop, types))
 
     def toAnotherType(self, number, page):
         if self.errorFlag:
