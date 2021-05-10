@@ -703,4 +703,4 @@ def application():
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
-    print(Algebra.Polynom([1, 1, 0, 0]).nmr())
+    print(Algebra.Polynom([1, 2, 1, 0, 0]).nmr())

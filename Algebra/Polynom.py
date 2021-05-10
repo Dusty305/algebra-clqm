@@ -252,7 +252,18 @@ class Polynom():
         if b.is_monomial():
             pow = b.power()
             return Polynom([1] + [0] * pow)
+        if b.is_negative():
+            b = b.change_sign()
         return b
+
+    def is_negative(self):
+        return self._coef[self.power()]._numerator._sign == NEGATIVE
+
+    def change_sign(self):
+        pol = Polynom(self._coef[::-1])
+        for i in range(len(pol._coef)):
+            pol._coef[i]._numerator = pol._coef[i]._numerator.change_sign()
+        return pol
 
     def is_monomial(self):
         counter = 0
@@ -286,4 +297,9 @@ class Polynom():
             return pol_
         # Делим полином на НОД от него и его производной
         pol_ /= pol_.gcf(pol_.derivate())
+        for i in range(len(pol_._coef)):
+            pol_._coef[i] = pol_._coef[i].reduce()
+        num = pol_.fac()._numerator
+        for i in range(len(pol_._coef)):
+            pol_._coef[i]._numerator /= num
         return pol_
