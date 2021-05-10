@@ -37,12 +37,11 @@ class Polynom():
             return True
         elif self.power() < num.power():
             return False
+        pow = self.power()
+        if self._coef[pow] > num._coef[pow]:
+            return True
         else:
-            for i in range(self.power(), -1, -1):
-                if self._coef[i] > num._coef[i]:
-                    return True
-                else:
-                    return False
+            return False
 
     '''МОДУЛИ POLYNOM'''
 
@@ -244,28 +243,25 @@ class Polynom():
 
         while b.power() != 0:
             temp = b
+            tempApow, tempBpow = a.power(), b.power()
             a, b = b, a % b
-            if b.is_zero():
+            if b.is_zero() or tempApow == b.power() and tempBpow == a.power():
                 b = temp
                 break
 
-        if b.power() == 0 and not b._coef[0].is_int():
-            return Polynom([1])
+        if b.is_monomial():
+            pow = b.power()
+            return Polynom([1] + [0] * pow)
         return b
 
-        # while not a.is_zero() and not b.is_zero():
-        #     if a > b:
-        #         a = a % b
-        #     else:
-        #         b = b % a
-        #     print(a.power(), b.power())
-        #     print(a)
-        #     print(b)
-        #
-        # res = b if a.is_zero() else a
-        # if res.power() == 0 and not res._coef[0].is_int():
-        #     res = Polynom([1])
-        # return res
+    def is_monomial(self):
+        counter = 0
+        for i in self._coef:
+            if not i.is_zero():
+                counter += 1
+            if counter > 1:
+                return False
+        return True
 
     def derivate(self):
         '''Модуль P-12 DER_P_P. Выполнил и оформил Щусь Максим'''

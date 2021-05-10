@@ -469,6 +469,8 @@ class MainWindow(QMainWindow):
             lambda: self.handleOperation(self.getNumber([Algebra.Polynom]).derivate, 1))
         self.p_gcf.clicked.connect(
             lambda: self.handleOperation(self.getNumber([Algebra.Polynom]).gcf, 2, [Algebra.Polynom]))
+        self.p_nmr.clicked.connect(
+            lambda: self.handleOperation(self.getNumber([Algebra.Polynom]).nmr, 1))
 
     def open_help(self):
         webbrowser.open(
@@ -701,4 +703,4 @@ def application():
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
-    application()
+    print(Algebra.Polynom([1, 1, 0, 0]).nmr())
